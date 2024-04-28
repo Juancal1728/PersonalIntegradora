@@ -3,7 +3,7 @@ public class Product {
 
     private String product_name;
     private double percentage_natural_product;
-    private boolean type_product;
+    private TypeProduct type_product;
     private boolean handmade;
     private boolean availableProduct;
     /**
@@ -14,7 +14,7 @@ public class Product {
         * @param handmade  indicates if the product is handmade (1 for yes, 0 for no)
         * @postcondition a new Product object is created with the given parameters
         */
-        public Product(String product_name, double percentage_natural_product, boolean type_product, boolean handmade, boolean availableProduct) {
+        public Product(String product_name, double percentage_natural_product, TypeProduct type_product, boolean handmade, boolean availableProduct) {
             this.product_name = product_name;
             this.percentage_natural_product = percentage_natural_product;
             this.type_product = type_product;
@@ -42,7 +42,7 @@ public class Product {
             return this.percentage_natural_product;
         }
     
-        public boolean isTypeProduct() {
+        public TypeProduct getTypeProduct() {
             return this.type_product;
         }
     

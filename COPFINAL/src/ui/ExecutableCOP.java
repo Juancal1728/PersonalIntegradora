@@ -62,9 +62,12 @@ public class ExecutableCOP {
             }
         } while (flag);
     }
-    /**
-     *Description : Displays the administrative menu, providing options to perform various administrative tasks.Users can register a place, register a community, manage community products, register species, modify species data, or return to the main menu.
+
+     /**
+     * Description: Displays the administrative menu and provides options to perform various administrative tasks.
+     * @Precondition: Scanner object 'reader' must be initialized.
      */
+   
 
     public void administrativeMenu() {
         clearScreen();
@@ -77,17 +80,15 @@ public class ExecutableCOP {
             System.out.println("--------------------------------------");
             System.out.println("2. Register a Community");
             System.out.println("--------------------------------------");
-            System.out.println("3. Add a product to a community");
+            System.out.println("3. Add or delete a product to a community");
             System.out.println("--------------------------------------");
-            System.out.println("4. Delete a product to a community");
+            System.out.println("4. Add a species to a place");
             System.out.println("--------------------------------------");
-            System.out.println("5. Add a species to a place");
+            System.out.println("5. Modify species data in a place");
             System.out.println("--------------------------------------");
-            System.out.println("6. Modify species data in a place");
+            System.out.println("6. Return to Main Menu");
             System.out.println("--------------------------------------");
-            System.out.println("7. Return to Main Menu");
-            System.out.println("--------------------------------------");
-            System.out.print("Select an option: [1-7] ");
+            System.out.print("Select an option: [1-6] ");
 
             int option = reader.nextInt();
 
@@ -99,18 +100,15 @@ public class ExecutableCOP {
                      registerCommunity();
                     break;
                 case 3:
-                     addProductToCommunity();
+                     manageCommunityProducts();
                     break;
                 case 4:
-                    removeProductFromCommunity(); 
-                    break;
-                case 5:
                      registerSpecies();
                     break;
-                case 6:
+                case 5:
                      modifySpecies();
                     break;
-                case 7:
+                case 6:
                     flag = false;
                     break;
                 default:
@@ -119,11 +117,11 @@ public class ExecutableCOP {
             }
         } while (flag);
     }
-    /**
-     * Description: Displays the queries menu, providing options to perform various queries.
-     * Users can check information of a place, check information of communities in a department, check information of communities with specific problems, check the name of the place with the most species, check the three largest places per square kilometer, or return to the main menu.
-    */
-
+     /**
+     * Description: Displays the queries menu and provides options to perform various queries.
+     * @Precondition: Scanner object 'reader' must be initialized.
+     */
+    
     public void queriesMenu() {
         clearScreen();
 
@@ -173,6 +171,11 @@ public class ExecutableCOP {
             }
         } while (flag);
     }
+     /**
+     * Description: Registers a place with user input.
+     * @Precondition: Scanner object 'reader' must be initialized.
+     * @Postcondition: A place is registered based on user input.
+     */
 
     public void registerPlace() {
         clearScreen();
@@ -234,6 +237,12 @@ public class ExecutableCOP {
         }
     }
 
+    /**
+     * Description: Registers a community with user input.
+     * @Precondition: Scanner object 'reader' must be initialized.
+     * @Postcondition: A community is registered based on user input.
+     */
+
     public void registerCommunity() {
         clearScreen();
         reader.nextLine();
@@ -288,6 +297,39 @@ public class ExecutableCOP {
             System.out.println("Error: The community is already registered");
         }
     }
+
+    public void manageCommunityProducts() {
+        clearScreen();
+        reader.nextLine();
+
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println("1. Add a product");
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println("2. Delete a product");
+        System.out.println("----------------------------------------------------------------------");
+        System.out.print("Select an option: ");
+        int option = reader.nextInt();
+    
+        switch (option) {
+            case 1:
+                addProductToCommunity();
+                break;
+            case 2:
+                removeProductFromCommunity();
+                break;
+            default:
+                System.out.println("Invalid option. Please try again");
+                break;
+        }
+    }
+    /**
+     * Description: Adds a product to a community with user input.
+     * 
+     * @Precondition: Scanner object 'reader' must be initialized.
+     * @Postcondition: A product is added to a community based on user input.
+     */
+
+
     public void addProductToCommunity() {
         clearScreen();
         reader.nextLine();
@@ -304,15 +346,24 @@ public class ExecutableCOP {
         System.out.println("----------------------------------------------------------------------");
         System.out.println("Enter the percentage of natural product (0-100):");
         double percentageNaturalProduct = reader.nextDouble();
+
         if (percentageNaturalProduct < 0 || percentageNaturalProduct > 100) {
             System.out.println("Invalid percentage. Please enter a value between 0 and 100.");
             return;
         }
         reader.nextLine(); 
         System.out.println("----------------------------------------------------------------------");
-        System.out.println("Enter the product type (Food = true or Craft = false):");
-        boolean productType = reader.nextBoolean();
+        System.out.println("Enter the product type: ");
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println("[1] Food");
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println("[2] Craft");
+        int productType = reader.nextInt();
         reader.nextLine(); 
+        if (productType < 1 || productType > 2) {
+            System.out.println("Invalid product type.");
+            return;
+        }
         System.out.println("----------------------------------------------------------------------");
         System.out.println("Enter if is a handmade production (true or false):");
         boolean handmade = reader.nextBoolean();
@@ -321,8 +372,7 @@ public class ExecutableCOP {
         System.out.println("Enter if the product is available (true or false):");
         boolean availableProduct = reader.nextBoolean();
         System.out.println("----------------------------------------------------------------------");
-    
-        boolean success = control.addProductToCommunity(communityName, productName, percentageNaturalProduct,productType,handmade,availableProduct); 
+        boolean success = control.addProductToCommunity(communityName, productName, percentageNaturalProduct, control.showTypeProduct(productType), handmade, availableProduct); 
         if (success) {
             System.out.println("Product successfully added to the community.");
         } else {
@@ -331,11 +381,8 @@ public class ExecutableCOP {
         reader.nextLine(); 
     }
     
-
-
-
-
-
+    
+    
     /**
      * Description: Removes a product from the specified community.
      * @Precondition The reader object must be initialized and ready to accept input.
@@ -363,7 +410,13 @@ public class ExecutableCOP {
         }
     }
 
-
+    /**
+     * Registers a species to a place with user input.
+     * 
+     * @Precondition: Scanner object 'reader' must be initialized.
+     * @Postcondition: A species is registered to a place based on user input.
+     */
+    
     public void registerSpecies() {
         clearScreen();
         reader.nextLine(); 
@@ -382,6 +435,7 @@ public class ExecutableCOP {
         System.out.println("----------------------------------------------------------------------");
         System.out.println("[2] Fauna ");
         int specieType = reader.nextInt();
+        reader.nextLine();
         System.out.println("----------------------------------------------------------------------");
         System.out.println("Enter the species photo:");
         String speciePhoto = reader.nextLine();
@@ -398,7 +452,13 @@ public class ExecutableCOP {
             System.out.println("Error: Failed to register the specie on the place");
         }
     }
-
+    /**
+     * Description: Modifies species data in a place with user input.
+     * 
+     * @Precondition: Scanner object 'reader' must be initialized.
+     * @Postcondition: Species data is modified in a place based on user input.
+     */
+     
     public void modifySpecies() {
         clearScreen();
         reader.nextLine();
@@ -418,6 +478,7 @@ public class ExecutableCOP {
         System.out.println("----------------------------------------------------------------------");
         System.out.println("[2] Fauna ");
         int newSpeciesType = reader.nextInt();
+        reader.nextLine();
         System.out.println("--------------------------------------------------");
         System.out.println("Enter the new photo of the species:");
         String newSpeciesPhoto = reader.nextLine();
@@ -434,6 +495,9 @@ public class ExecutableCOP {
         }
     }
 
+    /**
+     * Description: Displays information about a place based on user input.
+     */
     public void checkPlaceInformation() {
         clearScreen();
         reader.nextLine();
@@ -447,10 +511,13 @@ public class ExecutableCOP {
         System.out.println(result);
     }
 
+     /**
+     * Description: Displays information about communities in a department based on user input.
+     */
+
     public void checkCommunitiesInDepartment() {
         clearScreen();
         reader.nextLine();
-    
         System.out.println("Enter the number of the department to check communities:");
         System.out.println("---------------------------------------------------------------------");
         System.out.println("1. Chocó");
@@ -466,35 +533,38 @@ public class ExecutableCOP {
         System.out.println(result);
     }
     
-
-    
+    /**
+     * Description: Displays information about communities with specific problems.
+     */
     public void checkCommunitiesWithProblems() {
         clearScreen();
-    
         System.out.println("Searching for communities with problems related to schools and hospitals...");
         System.out.println("---------------------------------------------------------------------------");
-    
         String result = control.listCommunitiesWithProblems();
         System.out.println(result);
     }
 
+     /**
+     * Description: Displays information about the place with the most species.
+     */
     public void checkPlaceWithMostSpecies() {
         clearScreen();
-
         String result = control.placeWithMostSpecies();
         System.out.println(result);
     }
     /**
-     * Displays information about the three largest places per square kilometer.
+     * Description: Displays information about the three largest places per square kilometer.
     */
 
     public void checkThreeLargestPlaces() {
         clearScreen();
-
         String result = control.threeLargestPlaces();
         System.out.println(result);
     }
 
+    /**
+     * Description: Clears the console screen.
+     */
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

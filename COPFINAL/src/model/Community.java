@@ -47,6 +47,11 @@ public class Community {
             
             return msg;
         }
+          /**
+           * Description: Adds a new product to the array of products in this community.
+           * @param product The product to add.
+           * @return true if the product was added successfully, false otherwise.
+           */
 
         public boolean addProduct(Product product) {
             for (int i = 0; i < products.length; i++) {
@@ -57,20 +62,43 @@ public class Community {
             }
             return false;
         }
+        /**
+         * Description: Removes a product from the array of products in this community.
+         * @param productName The name of the product to remove.
+         * @return true if the product was removed successfully, false otherwise.
+         */
 
         public boolean eliminateProduct(String productName) {
             for (int i = 0; i < products.length; i++) {
                 if (products[i] != null && products[i].getProductName().equals(productName)) {
-                    for (int j = i; j < products.length - 1; j++) {
-                        products[j] = products[j + 1];
-                    }
-                    products[products.length - 1] = null;
+                    products[i] = null; 
                     return true;
                 }
             }
             return false;
         }
+           /**
+            *Description: Lists the products offered by the community.
+            *
+            * @param communityName The name of the community.
+            * @return A string containing the list of products offered by the community.
+            */
 
+        public String listProducts(String community_Name) {
+            String productList = "Products in " + community_Name + ":\n";
+            for (int i = 0; i < products.length; i++) {
+                if (products[i] != null) {
+                    productList += products[i].getProductName() + "\n";
+                }
+            }
+            
+            return productList;
+        }
+            /**
+            * Calculates the number of available products in the community.
+            * @return The count of available products.
+            */
+            
         public int calculateAvailableProducts() {
             int count = 0;
             for (int i = 0; i < products.length; i++) {
@@ -81,7 +109,6 @@ public class Community {
             return count;
         }
         
-       
       
         public Product[] getProducts() {
             return products;

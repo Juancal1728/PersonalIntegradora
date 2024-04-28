@@ -56,13 +56,12 @@ public Place(String placeName, Department department, double area, TypePlace typ
 
         return msg;
     }
-    /**
-      * Description: It adds a new species to the array of species in this place.
-      * @param specie the species to add.
-     * @return 
-      * @postcondition specie is added to the array of species in this place if there is available space.
-      */
-
+     /**
+     * Description: Validates if a species can be added based on its name.
+     * @param speciesName The name of the species to validate.
+     * @return true if the species can be added, false otherwise.
+     */
+    
     public boolean validateNumberSpecies(String speciesPerHabitad){
         for(int x = 0; x < species.length; x++){
             if(speciesPerHabitad.equals(species[x].getSpecieName())){
@@ -71,6 +70,10 @@ public Place(String placeName, Department department, double area, TypePlace typ
         }
         return true;      
     }
+    /**
+     * Description: Calculates the number of available species in the place.
+     * @return The count of available species.
+     */
 
     public int calculateAvailableSpecies() {
         int count = 0;
@@ -81,6 +84,11 @@ public Place(String placeName, Department department, double area, TypePlace typ
         }
         return count;
     }
+    /**
+     * Description: Adds a new species to the array of species in this place.
+     * @param species The species to add.
+     * @return true if the species was added successfully, false otherwise.
+     */
 
     public boolean addSpecie(Specie specie) {
         for (int i = 0; i < species.length; i++) {
